@@ -1,49 +1,35 @@
 from functools import wraps
 import jwt
-from flask import request
+from flask import request, jsonify
 from src.config import Config
 
-def token_required(f):
+def get_user_id_from_token():
+    token = None
+    if "Authorization" in request.headers:
+        token = request.headers["Authorization"].split(" ")[1]
+    if not token:
+        return None
+    try:
+        data = jwt.decode(token, Config.JWT_SECRET_KEY, algorithms=["HS256"])
+        user_id = data.get("user_id")
+        return user_id
+    except jwt.ExpiredSignatureError:
+        return None
+    except jwt.InvalidTokenError:
+        return None
+    except Exception:
+        return None
+
+def verify_token(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        token = None
-        if "Authorization" in request.headers:
-            token = request.headers["Authorization"].split(" ")[1]
-        if not token:
-            return {
-                "message": "Authentication Token is missing!",
-                "data": None,
-                "error": "Unauthorized"
-            }, 401
-        try:
-            data = jwt.decode(token, Config.JWT_SECRET_KEY, algorithms=["HS256"])
-            user_id = data.get("user_id")
-            if user_id:
-                if user_id is None:
-                    return {
-                        "message": "Invalid Authentication token!",
-                        "data": None,
-                        "error": "Unauthorized"
-                    }, 401
-        except jwt.ExpiredSignatureError:
-            return {
-                "message": "Token has expired!",
-                "data": None,
-                "error": "Unauthorized"
-            }, 401
-        except jwt.InvalidTokenError:
-            return {
+        user_id = get_user_id_from_token()
+        if not user_id:
+            return jsonify({
                 "message": "Invalid Authentication token!",
                 "data": None,
                 "error": "Unauthorized"
-            }, 401
-        except Exception as e:
-            return {
-                "message": "Something went wrong",
-                "data": None,
-                "error": str(e)
-            }, 500
-
+            }), 401
+        request.user_id = user_id  
         return f(*args, **kwargs)
-
     return decorated
