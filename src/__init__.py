@@ -1,13 +1,11 @@
 from flask import Flask
 from flask_pymongo import PyMongo
-from flask_jwt_extended import JWTManager
 from src.config import Config
 
 
 app = Flask(__name__)
 app.config.from_object(Config)
 mongo = PyMongo(app)
-jwt = JWTManager(app)
 
 # Check MongoDB connection
 try:

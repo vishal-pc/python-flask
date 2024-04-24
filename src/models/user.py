@@ -1,3 +1,4 @@
+from bson import ObjectId
 from src import mongo
 
 class User:
@@ -20,9 +21,16 @@ class User:
         return mongo.db.users.find_one({'userName': userName})
     
     @staticmethod
-    def find_by_id(user_id):
-        return mongo.db.users.find_one({'_id': user_id})
-    
-    @staticmethod
     def find_by_email(email):
         return mongo.db.users.find_one({'email': email})
+    
+    @staticmethod
+    def find_by_id(user_id):
+        user = mongo.db.users.find_one({'_id': ObjectId(user_id)})
+        if user:
+            user['_id'] = str(user['_id'])  
+        return user
+    
+    @staticmethod
+    def find_all_user():
+        return list(mongo.db.users.find())

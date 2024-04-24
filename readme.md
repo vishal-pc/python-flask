@@ -9,7 +9,7 @@ source venv/bin/activate
 
 # 3. Install Flask and Flask-JWT-Extended
 
-pip install Flask Flask-JWT-Extended pymongo flask-pymongo python-dotenv
+pip install Flask PyJWT pymongo flask-pymongo python-dotenv
 
 # 4. Get the requirements.txt file
 
