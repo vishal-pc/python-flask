@@ -1,0 +1,35 @@
+# Virtual Environment
+venv/
+env/
+
+# Environment Files
+.env
+
+# IDE/Editor Files
+.vscode/
+.idea/
+.vs/
+
+# Compiled Files or Directories
+__pycache__/
+.pytest_cache/
+*.pyc
+*.pyo
+
+# Dependency Files
+*.egg-info/
+dist/
+build/
+requirements.txt
+requirements-dev.txt
+
+# Log Files
+*.log
+logs/
+
+# Temporary Files
+tmp/
+temp/
+*.tmp
+
+
