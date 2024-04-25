@@ -4,6 +4,9 @@ from src.routes.default_route import default_bp
 from src.config import Config
 from gevent.pywsgi import WSGIServer
 
+
+
+
 app.register_blueprint(auth_bp)
 app.register_blueprint(default_bp)
 

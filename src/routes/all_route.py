@@ -39,3 +39,11 @@ def update_user_by_id_route():
 def delete_user_by_id_route():
     user_id = request.user_id
     return deleteUser(user_id)
+
+@auth_bp.route('/forget-password', methods=['POST'])
+def forget_password_route():
+    return forgetPassword()
+
+@auth_bp.route('/reset-password', methods=['POST'])
+def reset_password_route():
+    return resetPassword()
