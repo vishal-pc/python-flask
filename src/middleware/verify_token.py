@@ -3,6 +3,7 @@ import jwt
 from flask import request, jsonify
 from src.config import Config
 
+#Get the user id from token
 def get_user_id_from_token():
     token = None
     if "Authorization" in request.headers:
@@ -20,6 +21,7 @@ def get_user_id_from_token():
     except Exception:
         return None
 
+# Use this in a route for user authentication
 def verify_token(f):
     @wraps(f)
     def decorated(*args, **kwargs):
