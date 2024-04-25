@@ -86,3 +86,7 @@ logs/
 tmp/
 temp/
 \*.tmp
+
+# 9. Run the Flask app for production install gunicorn
+
+gunicorn -w 4 -b 127.0.0.1:8080 server:app
