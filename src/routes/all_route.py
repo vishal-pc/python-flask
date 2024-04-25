@@ -27,3 +27,15 @@ def get_user_by_id_route():
 @verify_token
 def get_all_user_route():
     return getAllUser()
+
+@auth_bp.route('/user-update', methods=['PATCH'])
+@verify_token
+def update_user_by_id_route():
+    user_id = request.user_id
+    return updateUser(user_id)
+
+@auth_bp.route('/user-delete', methods=['DELETE'])
+@verify_token
+def delete_user_by_id_route():
+    user_id = request.user_id
+    return deleteUser(user_id)
