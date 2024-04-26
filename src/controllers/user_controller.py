@@ -62,10 +62,18 @@ def forgetPassword():
         
         # Send email with reset URL
         msg = Message('Reset Your Password', sender=Config.MAIL_USERNAME, recipients=[email])
-        msg.body = f"Click the following link to reset your password: {reset_url}"
+        msg.html = f"""
+        <html>
+        <body>
+            <h2>Reset Your Password</h2>
+            <p>Click the following link to reset your password:</p>
+            <a href="{reset_url}">Reset Password</a>
+        </body>
+        </html>
+        """
         mail.send(msg)
         
-        return jsonify(message='Reset link sent to your email'), 200
+        return jsonify(message='Reset password link sent to your email'), 200
     return jsonify(message='Email not found'), 404
 
 
